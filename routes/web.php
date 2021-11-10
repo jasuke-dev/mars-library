@@ -14,4 +14,8 @@ use App\Http\Controllers\Firebase\LoginController;
 |
 */
 
-Route::get('/', [LoginController::class, 'index']);
+Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::post('/', [LoginController::class, 'authenticate']);
+Route::get('/dashboard', function(){
+    return view('dashboard.index');
+});//->middleware('auth');
