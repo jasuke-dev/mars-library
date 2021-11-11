@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\BookPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Firebase\LoginController;
+use App\Http\Controllers\FirebaseController;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +20,12 @@ use App\Http\Controllers\Firebase\LoginController;
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/', [LoginController::class, 'authenticate']);
 Route::get('/dashboard', function(){
-    return view('dashboard.index');
-});//->middleware('auth');
+    return view('dashboard.pages.index');
+})->middleware('admin');
+    
+Route::get('/register', [FirebaseController::class, 'signUp']);
+
+Route::post('/login', [FirebaseController::class, 'login']);
+Route::post('/logout', [FirebaseController::class, 'logout']);
+
+Route::resource('/dashboard/posts', BookPostController::class)->middleware('admin');
