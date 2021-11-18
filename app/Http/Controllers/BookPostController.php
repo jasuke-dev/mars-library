@@ -13,7 +13,7 @@ class BookPostController extends Controller
      */
     public function index()
     {
-        return view('dashboard.pages.posts');
+        return view('dashboard.pages.books.index');
     }
 
     /**
@@ -23,7 +23,7 @@ class BookPostController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.pages.books.create');
     }
 
     /**
@@ -34,7 +34,7 @@ class BookPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
