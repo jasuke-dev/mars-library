@@ -28,4 +28,7 @@ Route::get('/register', [FirebaseController::class, 'signUp']);
 Route::post('/login', [FirebaseController::class, 'login']);
 Route::post('/logout', [FirebaseController::class, 'logout']);
 
-Route::resource('/dashboard/posts', BookPostController::class)->middleware('admin');
+Route::resource('/posts', BookPostController::class)->middleware('admin');
+Route::get('/dashboard/posts', function(){
+    return view('dashboard.pages.posts');
+})->middleware('admin');

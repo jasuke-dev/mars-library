@@ -13,7 +13,7 @@ class BookPostController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.pages.posts');
     }
 
     /**
