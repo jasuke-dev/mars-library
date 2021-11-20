@@ -32,9 +32,14 @@
                                     <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
                                         Select a photo</p>
                                 </div>
-                                <input name="cover" id="cover" type="file" class="opacity-0" accept="image/*" @change="showPreview(event)" />
+                                <input name="cover" id="cover" type="file" class="opacity-0" accept="image/*" @change="showPreview(event)" required/>
                             </label>
                         </div>
+                        @error('cover')
+                            <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     
                   </label>
 
@@ -42,10 +47,10 @@
                     <span class="text-gray-700 dark:text-gray-400">Judul</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Judul buku" type="text" name="judul" id="judul"
+                      placeholder="Judul buku" type="text" name="judul" id="judul" required
                     />
-                    @error('title')
-                        <div class="invalid-feedback">
+                    @error('judul')
+                        <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                             {{ $message }}
                         </div>
                     @enderror
@@ -54,27 +59,42 @@
                     <span class="text-gray-700 dark:text-gray-400">Pengarang</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Nama Pengarang" type="text" name="pengarang" id="pengarang"
+                      placeholder="Nama Pengarang" type="text" name="pengarang" id="pengarang" required
                     />
+                    @error('pengarang')
+                        <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                            {{ $message }}
+                        </div>
+                    @enderror
                   </label>
                   <label class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Tahun terbit</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Tahun terbit" type="number" name="tahun" id="tahun"
+                      placeholder="Tahun terbit" type="number" name="tahun" id="tahun" required
                     />
+                    @error('tahun')
+                        <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                            {{ $message }}
+                        </div>
+                    @enderror
                   </label>
                   <label class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Stok</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Tahun terbit" type="number" name="stok" id="stok"
+                      placeholder="Tahun terbit" type="number" name="stok" id="stok" required
                     />
+                    @error('stok')
+                        <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                            {{ $message }}
+                        </div>
+                    @enderror
                   </label>
                      
                   <label class="block mt-4 text-sm" x-data="dropdown()" x-init="loadOptions()">
-                    <span class="text-grey-700 dark:text-gray-400">multiple</span>
-                    <input name="values" type="hidden" x-bind:value="selectedValues()">
+                    <span class="text-grey-700 dark:text-gray-400">Genre</span>
+                    <input name="genre" type="hidden" x-bind:value="selectedValues()">
                     <div class="w-full">
                         <div class="flex flex-col items-center relative">
                             <div x-on:click="open" class="w-full  svelte-1l8159u">
@@ -101,8 +121,13 @@
                                         <div x-show="selected.length    == 0" class="flex-1">
                                             <input placeholder="Select a option"
                                                 class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800"
-                                                x-bind:value="selectedValues()"
+                                                x-bind:value="selectedValues()" required
                                             >
+                                            @error('genre')
+                                                <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div
@@ -154,8 +179,13 @@
                     <textarea
                       class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="sinopsis" id="sinopsis"
                       rows="3"
-                      placeholder="Enter some long form content."
+                      placeholder="Enter some long form content." required
                     ></textarea>
+                    @error('sinopsis')
+                        <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                            {{ $message }}
+                        </div>
+                    @enderror
                   </label>
 
                 <button class="flex items-center justify-between mt-6 px-10 py-4 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
