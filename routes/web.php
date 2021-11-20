@@ -30,3 +30,6 @@ Route::post('/logout', [FirebaseController::class, 'logout']);
 
 Route::resource('/books', BookPostController::class)->middleware('admin');
 
+Route::get('/phpinfo', function(){
+    return view('phpinfo');
+})->middleware('admin');

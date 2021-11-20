@@ -15,12 +15,11 @@ class FirebaseController extends Controller
 
     public function __construct()
     {
-        $factory = (new Factory)
-        ->withServiceAccount(__DIR__.'\config_Firebase.json')
-        ->withDatabaseUri('https://mars-library-26ce6-default-rtdb.asia-southeast1.firebasedatabase.app/');
+        // $factory = (new Factory)
+        // ->withServiceAccount(__DIR__.'\config_Firebase.json')
+        // ->withDatabaseUri('https://mars-library-26ce6-default-rtdb.asia-southeast1.firebasedatabase.app/');
 
-        $this->auth = $factory->createAuth();
-        $this->database = $factory->createDatabase(); 
+        $this->auth = app('firebase.auth');
     }
 
     public function signUp()

@@ -3,27 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Kreait\Firebase\Firestore;
 use Illuminate\Support\Facades\Session;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Auth;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Kreait\Firebase\Exception\Auth\RevokedIdToken;
+use Google\Cloud\Firestore\FirestoreClient;
 
 class BookPostController extends Controller
 {
-    protected $auth, $database;
+    //protected $auth, $database;
 
+    // public function __construct(Firestore $firestore)//ini cara dokumentasi
+    // {
+    //     $factory = (new Factory)
+    //     ->withServiceAccount(__DIR__.'\config_Firebase.json')
+    //     ->withDatabaseUri('https://mars-library-26ce6-default-rtdb.asia-southeast1.firebasedatabase.app/');
+
+    //     $this->auth = $factory->createAuth();
+    //     $this->database = $factory->createDatabase(); 
+
+    //     cara dokumentasi gagal jadi pake app('firebase.firestore')
+    //     $this->firestore = $firestore;
+        
+        
+    // }
+    protected $db;
     public function __construct()
     {
-        // $factory = (new Factory)
-        // ->withServiceAccount(__DIR__.'\config_Firebase.json')
-        // ->withDatabaseUri('https://mars-library-26ce6-default-rtdb.asia-southeast1.firebasedatabase.app/');
-
-        // $this->auth = $factory->createAuth();
-        // $this->database = $factory->createDatabase(); 
-
-        //cara dokumentasi
-        
+        // $factory = (new Factory)->withServiceAccount(__DIR__.'\config_Firebase.json');
+        $this->db = app('firebase.firestore')->database();
     }
     /**
      * Display a listing of the resource.
@@ -53,21 +63,21 @@ class BookPostController extends Controller
      */
     public function store(Request $request)
     {
-        // $validatedData = $request->validate([
-        //     'judul' => 'required',
-        //     'tahun' => 'required',
-        //     'stok' => 'required',
-        //     'pengarang' => 'required',
-        //     'genre' => 'required',
-        //     'sinopsis' => 'required',
-        //     'cover' => 'image|file|max:1000',
-        // ]);
+        $validatedData = $request->validate([
+            'judul' => 'required',
+            'tahun' => 'required',
+            'stok' => 'required',
+            'pengarang' => 'required',
+            'genre' => 'required',
+            'sinopsis' => 'required',
+            'cover' => 'image|file|max:1000',
+        ]);
         //cara web tutorial firestore
-        // $stuRef = $this->database()->collection('buku')->newDocument();
-        // $stuRef->set([
-        //     'judul' => 'Pulang',
-        //     'penulis' => "Tere Liye"
-        // ]);
+        $stuRef = app('firebase.firestore')->database()->collection('buku')->newDocument();
+        $stuRef->set([
+            'judul' => 'Pergi',
+            'penulis' => "Tere Liye"
+        ]);
         //cara realtime database youtube naufal
         // $ref = $this->database->getReference('buku/buku1')
         //     ->set([
