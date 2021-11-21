@@ -17,7 +17,7 @@
         <form action="/books" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="px-8 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <label class="block mt-4 text-sm">
+                    <label class="block mt-4 text-sm">
                         <div class="flex w-64">
                             <label x-data="showImage()" class="flex flex-col w-64 h-96 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
                                 <div class="relative flex flex-col items-center justify-center pt-7">

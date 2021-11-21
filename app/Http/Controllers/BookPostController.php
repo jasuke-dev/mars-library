@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Google\Cloud\Firestore\FirestoreClient;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Kreait\Firebase\Exception\Auth\RevokedIdToken;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 
 class BookPostController extends Controller
 {
@@ -75,21 +76,7 @@ class BookPostController extends Controller
             'sinopsis' => 'required',
             'cover' => 'image|file|max:1000',
         ]);
-        date_default_timezone_set("Asia/Bangkok");
-
-        
-        //cara web tutorial firestore
-        $stuRef = app('firebase.firestore')->database()->collection('books')->newDocument('dokumen baru');
-        $stuRef->set([
-            'judul' => $request['judul'],
-            'pengarang' => $request['pengarang'],
-            'tahun_terbit' => $request['tahun'],
-            'stok' => $request['stok'],
-            'sinopsis' => $request['sinopsis'],
-            'time' => date("Y:m:d:H:i:s"),
-            'rating' => 0
-        ]);
-        
+        date_default_timezone_set("Asia/Bangkok");      
         
         // mengolah inputan genre
         // $genre_arr = explode("," , $request['genre']);
@@ -100,6 +87,8 @@ class BookPostController extends Controller
         //         'genre_id' => $genre //masih kurang buku_id dan genre references
         //     ]);
         // }
+
+
         //uploud image
         $image = $request->file('cover');
         //$buku = app('firebase.firestore')->database()->collection('buku')->document($uid);
@@ -113,8 +102,31 @@ class BookPostController extends Controller
             app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $file]);
             //menghapus dari local
             unlink($localfolder . $file);
-            echo 'success';
-            dd($file);
+            
+            //mengambil url image
+            $expiresAt = new \DateTime('today');  
+            $imageReference = app('firebase.storage')->getBucket()->object("cover/".$uid);  
+            if(True)  {
+                $image = $imageReference;  
+                
+                //insert data
+                $stuRef = app('firebase.firestore')->database()->collection('books')->newDocument('dokumen baru');
+                $stuRef->set([
+                    'judul' => $request['judul'],
+                    'pengarang' => $request['pengarang'],
+                    'tahun_terbit' => $request['tahun'],
+                    'stok' => $request['stok'],
+                    'sinopsis' => $request['sinopsis'],
+                    'time' => date("Y:m:d:H:i:s"),
+                    'rating' => 0,
+                    'cover' => $image
+                ]);
+                dd($image);
+                echo 'Success';
+
+            }else{
+                dd('ngga masuk fetch image');
+            }
         }else{
             echo 'error';
         }
