@@ -65,7 +65,7 @@ class FirebaseController extends Controller
             return redirect()->intended('/dashboard');
         } catch (\Throwable $e) {
 
-            return back()->with('loginError', 'Email atau Password anda salah');
+            return back()->with('loginError', $e->getMessage());
         }
     }
 

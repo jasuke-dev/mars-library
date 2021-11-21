@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use Kreait\Firebase\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
 use Illuminate\Support\Facades\Session;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\Auth;
+use Google\Cloud\Firestore\FirestoreClient;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Kreait\Firebase\Exception\Auth\RevokedIdToken;
-use Google\Cloud\Firestore\FirestoreClient;
 
 class BookPostController extends Controller
 {
@@ -63,6 +65,7 @@ class BookPostController extends Controller
      */
     public function store(Request $request)
     {
+        $uid = Str::uuid();
         $validatedData = $request->validate([
             'judul' => 'required',
             'tahun' => 'required',
@@ -72,12 +75,50 @@ class BookPostController extends Controller
             'sinopsis' => 'required',
             'cover' => 'image|file|max:1000',
         ]);
+        date_default_timezone_set("Asia/Bangkok");
+
+        
         //cara web tutorial firestore
-        $stuRef = app('firebase.firestore')->database()->collection('buku')->newDocument();
+        $stuRef = app('firebase.firestore')->database()->collection('books')->newDocument('dokumen baru');
         $stuRef->set([
-            'judul' => 'Pergi',
-            'penulis' => "Tere Liye"
+            'judul' => $request['judul'],
+            'pengarang' => $request['pengarang'],
+            'tahun_terbit' => $request['tahun'],
+            'stok' => $request['stok'],
+            'sinopsis' => $request['sinopsis'],
+            'time' => date("Y:m:d:H:i:s"),
+            'rating' => 0
         ]);
+        
+        
+        // mengolah inputan genre
+        // $genre_arr = explode("," , $request['genre']);
+        // foreach ($genre_arr as $genre){
+        //     $genre_buku = app('firebase.firestore')->database()->collection('buku_genre')->newDocument();
+        //     $genre_buku->set([
+        //         'buku' => $stuRef,
+        //         'genre_id' => $genre //masih kurang buku_id dan genre references
+        //     ]);
+        // }
+        //uploud image
+        $image = $request->file('cover');
+        //$buku = app('firebase.firestore')->database()->collection('buku')->document($uid);
+        $firebase_storage_path = 'cover/';
+        $name = $uid;
+        $localfolder = public_path('firebase-temp-uplouds') . '/';
+        $extension = $image->getClientOriginalExtension();
+        $file = $name . '.'. $extension;
+        if($image->move($localfolder, $file)){
+            $uploadedfile = fopen($localfolder.$file, 'r');
+            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $file]);
+            //menghapus dari local
+            unlink($localfolder . $file);
+            echo 'success';
+            dd($file);
+        }else{
+            echo 'error';
+        }
+
         //cara realtime database youtube naufal
         // $ref = $this->database->getReference('buku/buku1')
         //     ->set([

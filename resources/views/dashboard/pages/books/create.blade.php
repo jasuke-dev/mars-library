@@ -2,10 +2,10 @@
 
 @section('container')
 <select x-cloak id="select" class="hidden">
-    <option value="1">Option 2</option>
-    <option value="2">Option 3</option>
-    <option value="3">Option 4</option>
-    <option value="4">Option 5</option>
+    <option value="1">Scifi</option>
+    <option value="2">Horor</option>
+    <option value="3">Romance</option>
+    <option value="4">Comedy</option>
   </select>
 <main class="h-full pb-16 overflow-y-auto">
     <div class="container grid px-6 mx-auto">
