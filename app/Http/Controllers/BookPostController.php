@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Session;
 use Google\Cloud\Firestore\FirestoreClient;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Kreait\Firebase\Exception\Auth\RevokedIdToken;
-use phpDocumentor\Reflection\PseudoTypes\True_;
 
 class BookPostController extends Controller
 {
@@ -67,16 +66,31 @@ class BookPostController extends Controller
     public function store(Request $request)
     {
         $uid = Str::uuid();
-        $validatedData = $request->validate([
-            'judul' => 'required',
-            'tahun' => 'required',
-            'stok' => 'required',
-            'pengarang' => 'required',
-            'genre' => 'required',
-            'sinopsis' => 'required',
-            'cover' => 'image|file|max:1000',
+        // $validatedData = $request->validate([
+        //     'cover' => 'required',
+        //     'judul' => 'required',
+        //     'tahun' => 'required',
+        //     'stok' => 'required',
+        //     'pengarang' => 'required',
+        //     'genre' => 'required',
+        //     'sinopsis' => 'required',
+        // ]);
+        date_default_timezone_set("Asia/Bangkok");
+
+        
+        //cara web tutorial firestore
+        $stuRef = app('firebase.firestore')->database()->collection('books')->newDocument();
+        $stuRef->set([
+            'cover' => $request['cover'],
+            'judul' => $request['judul'],
+            'pengarang' => $request['pengarang'],
+            'tahun_terbit' => $request['tahun'],
+            'stok' => $request['stok'],
+            'sinopsis' => $request['sinopsis'],
+            'time' => date("Y:m:d:H:i:s"),
+            'rating' => 0
         ]);
-        date_default_timezone_set("Asia/Bangkok");      
+        
         
         // mengolah inputan genre
         // $genre_arr = explode("," , $request['genre']);
@@ -88,48 +102,23 @@ class BookPostController extends Controller
         //     ]);
         // }
 
-
         //uploud image
-        $image = $request->file('cover');
-        //$buku = app('firebase.firestore')->database()->collection('buku')->document($uid);
-        $firebase_storage_path = 'cover/';
-        $name = $uid;
-        $localfolder = public_path('firebase-temp-uplouds') . '/';
-        $extension = $image->getClientOriginalExtension();
-        $file = $name . '.'. $extension;
-        if($image->move($localfolder, $file)){
-            $uploadedfile = fopen($localfolder.$file, 'r');
-            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $file]);
-            //menghapus dari local
-            unlink($localfolder . $file);
+        // $image = $request->file('cover');
+        // //$buku = app('firebase.firestore')->database()->collection('buku')->document($uid);
+        // $firebase_storage_path = 'cover/';
+        // $name = $uid;
+        // $localfolder = public_path('firebase-temp-uplouds') . '/';
+        // $extension = $image->getClientOriginalExtension();
+        // $file = $name . '.'. $extension;
+        // if($image->move($localfolder, $file)){
+        //     $uploadedfile = fopen($localfolder.$file, 'r');
+        //     app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $file]);
+        //     //menghapus dari local
+        //     unlink($localfolder . $file);
             
-            //mengambil url image
-            $expiresAt = new \DateTime('today');  
-            $imageReference = app('firebase.storage')->getBucket()->object("cover/".$uid);  
-            if(True)  {
-                $image = $imageReference;  
-                
-                //insert data
-                $stuRef = app('firebase.firestore')->database()->collection('books')->newDocument('dokumen baru');
-                $stuRef->set([
-                    'judul' => $request['judul'],
-                    'pengarang' => $request['pengarang'],
-                    'tahun_terbit' => $request['tahun'],
-                    'stok' => $request['stok'],
-                    'sinopsis' => $request['sinopsis'],
-                    'time' => date("Y:m:d:H:i:s"),
-                    'rating' => 0,
-                    'cover' => $image
-                ]);
-                dd($image);
-                echo 'Success';
-
-            }else{
-                dd('ngga masuk fetch image');
-            }
-        }else{
-            echo 'error';
-        }
+        // }else{
+        //     echo 'error';
+        //}
 
         //cara realtime database youtube naufal
         // $ref = $this->database->getReference('buku/buku1')
