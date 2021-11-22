@@ -18,5 +18,8 @@
         "sass": "^1.43.4",
         "sass-loader": "^12.1.0",
         "tailwindcss": "^2.2.19"
+    },
+    "dependencies": {
+        "sweetalert": "^2.1.2"
     }
 }

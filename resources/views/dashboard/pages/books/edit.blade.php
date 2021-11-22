@@ -14,13 +14,14 @@
         </h2>
 
         {{-- form --}}
-        <form action="/books" method="POST" enctype="multipart/form-data">
+        <form action="/books/{{ $oldData->id() }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('put')
             <div class="px-8 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                   <label class="block mt-4 text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Cover</span>
                         <input
-                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="link cover buku" type="text" name="cover" id="cover" value="{{ old('cover') }}" required
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="link cover buku" type="text" name="cover" id="cover" value="{{ old('cover' , $oldData->data()['cover']) }}" required
                         />
                         @error('cover')
                             <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -33,7 +34,7 @@
                   <label class="block text-sm mt-4">
                     <span class="text-gray-700 dark:text-gray-400">Judul</span>
                     <input
-                      class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Judul buku" type="text" name="judul" id="judul" value="{{ old('judul') }}" required/>
+                      class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Judul buku" type="text" name="judul" id="judul" value="{{ old('judul', $oldData->data()['judul']) }}" required/>
                     @error('judul')
                         <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                             {{ $message }}
@@ -44,7 +45,7 @@
                     <span class="text-gray-700 dark:text-gray-400">Pengarang</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Nama Pengarang" type="text" name="pengarang" id="pengarang" value="{{ old('pengarang') }}" required
+                      placeholder="Nama Pengarang" type="text" name="pengarang" id="pengarang" value="{{ old('pengarang' , $oldData->data()['pengarang']) }}" required
                     />
                     @error('pengarang')
                         <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -56,7 +57,7 @@
                     <span class="text-gray-700 dark:text-gray-400">Tahun terbit</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Tahun terbit" type="number" name="tahun" id="tahun"  value="{{ old('tahun') }}" required
+                      placeholder="Tahun terbit" type="number" name="tahun" id="tahun"  value="{{ old('tahun' , $oldData->data()['tahun_terbit']) }}" required
                     />
                     @error('tahun')
                         <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -68,7 +69,7 @@
                     <span class="text-gray-700 dark:text-gray-400">Stok</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Stok buku" type="number" name="stok" id="stok" value="{{ old('stok') }}" required
+                      placeholder="Stok buku" type="number" name="stok" id="stok" value="{{ old('stok' , $oldData->data()['stok']) }}" required
                     />
                     @error('stok')
                         <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -80,8 +81,8 @@
                   <label class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Sinopsis</span>
                     <textarea
-                      class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="sinopsis" id="sinopsis" rows="3" placeholder="Enter some long form content." value="{{ old('sinopsis') }}"
-                    ></textarea>
+                      class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="sinopsis" id="sinopsis" rows="3" placeholder="Enter some long form content." 
+                    >{{ old('sinopsis' , $oldData->data()['sinopsis']) }}</textarea>
                     @error('sinopsis')
                         <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                             {{ $message }}

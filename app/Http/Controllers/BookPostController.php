@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Google\Cloud\Firestore\FirestoreClient;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Kreait\Firebase\Exception\Auth\RevokedIdToken;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class BookPostController extends Controller
 {
@@ -44,7 +45,11 @@ class BookPostController extends Controller
      */
     public function index()
     {
-        return view('dashboard.pages.books.index');
+        $books = app('firebase.firestore')->database()->collection('books')->documents();
+        //dd($books);
+        return view('dashboard.pages.books.index', [
+            'books' => $books
+        ]);
     }
 
     /**
@@ -66,15 +71,14 @@ class BookPostController extends Controller
     public function store(Request $request)
     {
         $uid = Str::uuid();
-        // $validatedData = $request->validate([
-        //     'cover' => 'required',
-        //     'judul' => 'required',
-        //     'tahun' => 'required',
-        //     'stok' => 'required',
-        //     'pengarang' => 'required',
-        //     'genre' => 'required',
-        //     'sinopsis' => 'required',
-        // ]);
+        $validatedData = $request->validate([
+            'cover' => 'required',
+            'judul' => 'required',
+            'tahun' => 'required',
+            'stok' => 'required',
+            'pengarang' => 'required',
+            'sinopsis' => 'required',
+        ]);
         date_default_timezone_set("Asia/Bangkok");
 
         
@@ -91,7 +95,7 @@ class BookPostController extends Controller
             'rating' => 0
         ]);
         
-        
+        return redirect('/books')->with('success',"Book Has been Added");
         // mengolah inputan genre
         // $genre_arr = explode("," , $request['genre']);
         // foreach ($genre_arr as $genre){
@@ -149,7 +153,9 @@ class BookPostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('dashboard.pages.books.edit',[
+            'oldData' => app('firebase.firestore')->database()->collection('books')->document($id)->snapshot()
+        ]);
     }
 
     /**
@@ -161,7 +167,29 @@ class BookPostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'cover' => 'required',
+            'judul' => 'required',
+            'tahun' => 'required',
+            'stok' => 'required',
+            'pengarang' => 'required',
+            'sinopsis' => 'required',
+        ]);
+        try{
+            app('firebase.firestore')->database()->collection('books')->document($id)->update([
+                [ 'path' => 'cover' , 'value' => $request['cover'] ],
+                [ 'path' => 'judul' , 'value' => $request['judul'] ],
+                [ 'path' => 'pengarang' , 'value' => $request['pengarang'] ],
+                [ 'path' => 'tahun_terbit' , 'value' => $request['tahun'] ],
+                [ 'path' => 'stok' , 'value' => $request['stok'] ],
+                [ 'path' => 'sinopsis' , 'value' => $request['sinopsis'] ],
+            ]); 
+
+            return redirect('/books')->with('success',"Book Has been Edited");
+        } catch(\Exception $e){
+            return redirect()->back()
+                ->with('error', 'Error during the creation!');
+        }
     }
 
     /**
@@ -172,6 +200,7 @@ class BookPostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        app('firebase.firestore')->database()->collection('books')->document($id)->delete();  
+        return redirect('/books')->with('success',"Book Has been deleted");
     }
 }

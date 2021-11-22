@@ -7,7 +7,7 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
     class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
     href="#"
     >
-    Windmill
+    FTU Library
     </a>
     <ul class="mt-6">
     <li class="relative px-6 py-3">
