@@ -78,6 +78,7 @@ class BookPostController extends Controller
             'stok' => 'required',
             'pengarang' => 'required',
             'sinopsis' => 'required',
+            'pdf' => 'required',
         ]);
         date_default_timezone_set("Asia/Bangkok");
 
@@ -94,7 +95,24 @@ class BookPostController extends Controller
             'time' => date("Y:m:d:H:i:s"),
             'rating' => 0
         ]);
-        
+
+        //uploud image
+        $pdf = $request->file('pdf');
+        $firebase_storage_path = 'pdf/';
+        $name = $stuRef->id();
+        $localfolder = public_path('firebase-temp-uplouds') . '/';
+        $extension = $pdf->getClientOriginalExtension();
+        $file = $name . '.'. $extension;
+        if($pdf->move($localfolder, $file)){
+            $uploadedfile = fopen($localfolder.$file, 'r');
+            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $file]);
+            //menghapus dari local
+            unlink($localfolder . $file);
+            
+        }else{
+            echo 'error';
+        } 
+
         return redirect('/books')->with('success',"Book Has been Added");
         // mengolah inputan genre
         // $genre_arr = explode("," , $request['genre']);
