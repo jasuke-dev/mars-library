@@ -70,7 +70,6 @@ class BookPostController extends Controller
      */
     public function store(Request $request)
     {
-        $uid = Str::uuid();
         $validatedData = $request->validate([
             'cover' => 'required',
             'judul' => 'required',
@@ -96,7 +95,7 @@ class BookPostController extends Controller
             'rating' => 0
         ]);
 
-        //uploud image
+        //uploud pdf
         $pdf = $request->file('pdf');
         $firebase_storage_path = 'pdf/';
         $name = $stuRef->id();

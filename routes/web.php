@@ -4,6 +4,7 @@ use App\Http\Controllers\BookPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Firebase\LoginController;
 use App\Http\Controllers\FirebaseController;
+use App\Http\Controllers\UserPostController;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 
 /*
@@ -29,6 +30,8 @@ Route::post('/login', [FirebaseController::class, 'login']);
 Route::post('/logout', [FirebaseController::class, 'logout']);
 
 Route::resource('/books', BookPostController::class)->middleware('admin');
+
+Route::resource('/users', UserPostController::class)->middleware('admin');
 
 Route::get('/phpinfo', function(){
     return view('phpinfo');
