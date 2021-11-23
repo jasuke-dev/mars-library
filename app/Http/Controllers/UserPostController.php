@@ -12,6 +12,7 @@ use Google\Cloud\Firestore\FirestoreClient;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Kreait\Firebase\Exception\Auth\RevokedIdToken;
 use Kreait\Firebase\Value\Uid;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class UserPostController extends Controller
@@ -64,6 +65,7 @@ class UserPostController extends Controller
         //register user
         $newUser = $this->auth->createUserWithEmailAndPassword($request['email'], $request['password']);        
 
+        $admin = ($request['accountType'] == 'True') ? true : false;
         //buat user collection berdasar uid auth user
         $stuRef = app('firebase.firestore')->database()->collection('users')->Document($newUser->uid);
         $stuRef->set([
@@ -71,7 +73,7 @@ class UserPostController extends Controller
             'email' => $request['email'],
             'username' => $request['username'],
             'telp' => $request['telp'],
-            'isAdmin' => $request['accountType']
+            'isAdmin' => $admin
         ]);
 
         //uploud pdf
@@ -135,18 +137,20 @@ class UserPostController extends Controller
             'telp' => 'required'
         ]);
 
+        $admin = ($request['accountType'] == 'True') ? true : false;
+
         try{
-            app('firebase.firestore')->database()->collection('books')->document($id)->update([
+            app('firebase.firestore')->database()->collection('users')->document($id)->update([
                 [ 'path' => 'username' , 'value' => $request['username'] ],
                 [ 'path' => 'email' , 'value' => $request['email'] ],
-                [ 'path' => 'isAdmin' , 'value' => $request['accountType'] ],
+                [ 'path' => 'isAdmin' , 'value' => $admin ],
                 [ 'path' => 'telp' , 'value' => $request['telp'] ],
             ]); 
 
             return redirect('/users')->with('success',"Book Has been Edited");
         } catch(\Exception $e){
             return redirect('/users')
-                ->with('error', 'Error during the creation!');
+                ->with('error', $e->getMessage());
         }
     }
 

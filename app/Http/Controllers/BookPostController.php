@@ -77,7 +77,7 @@ class BookPostController extends Controller
             'stok' => 'required',
             'pengarang' => 'required',
             'sinopsis' => 'required',
-            'pdf' => 'required',
+            'link' => 'required',
             'rating' => 'required',
         ]);
         date_default_timezone_set("Asia/Bangkok");
@@ -94,7 +94,7 @@ class BookPostController extends Controller
             'sinopsis' => $request['sinopsis'],
             'time' => date("Y:m:d:H:i:s"),
             'rating' => $request['rating'],
-            'link' => $request['pdf']
+            'link' => $request['link']
         ]);
 
         //uploud pdf
@@ -201,6 +201,8 @@ class BookPostController extends Controller
                 [ 'path' => 'pengarang' , 'value' => $request['pengarang'] ],
                 [ 'path' => 'tahun_terbit' , 'value' => $request['tahun'] ],
                 [ 'path' => 'stok' , 'value' => $request['stok'] ],
+                [ 'path' => 'rating' , 'value' => $request['rating'] ],
+                [ 'path' => 'link' , 'value' => $request['link'] ],
                 [ 'path' => 'sinopsis' , 'value' => $request['sinopsis'] ],
             ]); 
 

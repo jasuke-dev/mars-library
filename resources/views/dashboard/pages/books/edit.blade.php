@@ -79,6 +79,32 @@
                   </label>
 
                   <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Rating</span>
+                    <input
+                      class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      placeholder="Rating" type="number" name="rating" id="rating" value="{{ old('rating' , $oldData->data()['rating']) }}" required
+                    />
+                    @error('rating')
+                        <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                  </label>
+                  <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Link Pdf</span>
+                    <input
+                      class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      placeholder="link pdf" type="text" name="link" id="link" value="{{ old('link' , $oldData->data()['link']) }}" required
+                    />
+                    @error('link')
+                        <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    
+                  </label>
+
+                  <label class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Sinopsis</span>
                     <textarea
                       class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="sinopsis" id="sinopsis" rows="3" placeholder="Enter some long form content." 

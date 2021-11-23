@@ -89,12 +89,12 @@
                     @enderror
                   </label>
                   <label class="block mt-4 text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">Stok</span>
+                    <span class="text-gray-700 dark:text-gray-400">Link Pdf</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Stok buku" type="file" name="pdf" id="pdf" value="{{ old('stok') }}" required
+                      placeholder="link pdf" type="text" name="link" id="link" value="{{ old('link') }}" required
                     />
-                    @error('stok')
+                    @error('link')
                         <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                             {{ $message }}
                         </div>

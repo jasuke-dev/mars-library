@@ -40,14 +40,19 @@
                         {{ $user->data()['email'] }}
                       </td>
                       <td class="px-4 py-3 text-xs">
-                        <span
-                          class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
-                        >
-                          {{ $user->data()['username'] }}
-                        </span>
+                        {{ $user->data()['username'] }}
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        {{ $user->data()['isAdmin'] }}
+                        @if ($user->data()['isAdmin'])
+                          <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                            Admin
+                          </span>   
+                        @else
+                          <span class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+                            User
+                          </span>
+                        @endif
+                        
                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">

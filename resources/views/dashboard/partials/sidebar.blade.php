@@ -84,21 +84,14 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
             class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
             href="/users"
             >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
             <span class="ml-4">users</span>
             </a>
         </li>
     </ul>
-    <div class="px-6 my-6">
-    <button
-        class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-    >
-        Create account
-        <span class="ml-2" aria-hidden="true">+</span>
-    </button>
-    </div>
+    
 </div>
 </aside>
 <!-- Mobile sidebar -->
@@ -193,7 +186,7 @@ x-transition:leave-end="opacity-0 transform -translate-x-20"
             class="inline-flex items-center w-full text-sm font-semibold transition-colors {{ Request::is('users*') ? 'text-gray-800' : '' }} duration-150 hover:text-gray-800 dark:hover:text-gray-200"
             href="/users"
             >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
                 <path
@@ -204,13 +197,6 @@ x-transition:leave-end="opacity-0 transform -translate-x-20"
             </a>
         </li>
     </ul>
-    <div class="px-6 my-6">
-    <button
-        class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-    >
-        Create account
-        <span class="ml-2" aria-hidden="true">+</span>
-    </button>
-    </div>
+
 </div>
 </aside>

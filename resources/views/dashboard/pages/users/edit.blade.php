@@ -79,7 +79,7 @@
                           type="radio"
                           class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                           name="accountType"
-                          value= True checked='{{ $oldData->data()['isAdmin'] ? 'selected' : '' }}'
+                          value= True @if($oldData->data()['isAdmin']) checked='selected' @endif
                         />
                         <span class="ml-2">Admin</span>
                       </label>
@@ -90,7 +90,7 @@
                           type="radio"
                           class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                           name="accountType"
-                          value= False checked='{{ $oldData->data()['isAdmin'] ? '' : 'selected' }}'
+                          value= False @if(!$oldData->data()['isAdmin']) checked='selected' @endif
                         />
                         <span class="ml-2">User</span>
                       </label>
