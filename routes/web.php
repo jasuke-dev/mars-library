@@ -29,9 +29,9 @@ Route::get('/register', [FirebaseController::class, 'signUp']);
 Route::post('/login', [FirebaseController::class, 'login']);
 Route::post('/logout', [FirebaseController::class, 'logout']);
 
-Route::resource('/books', BookPostController::class)->middleware('admin');
+Route::resource('/books', BookPostController::class)->middleware('admin')->middleware('sweet');
 
-Route::resource('/users', UserPostController::class)->middleware('admin');
+Route::resource('/users', UserPostController::class)->middleware('admin')->middleware('sweet');
 
 Route::get('/phpinfo', function(){
     return view('phpinfo');

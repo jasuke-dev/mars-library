@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Closure;
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -14,16 +16,6 @@ class Controller extends BaseController
     //sweet alert
     public function __construct()
     {
-        $this->middleware(function($request,$next){
-            if (session('success')) {
-                Alert::success(session('success'));
-            }
-
-            if (session('error')) {
-                Alert::error(session('error'));
-            }
-
-            return $next($request);
-        });
+        $this->middleware('sweet');
     }
 }

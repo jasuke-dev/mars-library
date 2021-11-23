@@ -78,6 +78,7 @@ class BookPostController extends Controller
             'pengarang' => 'required',
             'sinopsis' => 'required',
             'pdf' => 'required',
+            'rating' => 'required',
         ]);
         date_default_timezone_set("Asia/Bangkok");
 
@@ -92,25 +93,26 @@ class BookPostController extends Controller
             'stok' => $request['stok'],
             'sinopsis' => $request['sinopsis'],
             'time' => date("Y:m:d:H:i:s"),
-            'rating' => 0
+            'rating' => $request['rating'],
+            'link' => $request['pdf']
         ]);
 
         //uploud pdf
-        $pdf = $request->file('pdf');
-        $firebase_storage_path = 'pdf/';
-        $name = $stuRef->id();
-        $localfolder = public_path('firebase-temp-uplouds') . '/';
-        $extension = $pdf->getClientOriginalExtension();
-        $file = $name . '.'. $extension;
-        if($pdf->move($localfolder, $file)){
-            $uploadedfile = fopen($localfolder.$file, 'r');
-            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $file]);
-            //menghapus dari local
-            unlink($localfolder . $file);
+        // $pdf = $request->file('pdf');
+        // $firebase_storage_path = 'pdf/';
+        // $name = $stuRef->id();
+        // $localfolder = public_path('firebase-temp-uplouds') . '/';
+        // $extension = $pdf->getClientOriginalExtension();
+        // $file = $name . '.'. $extension;
+        // if($pdf->move($localfolder, $file)){
+        //     $uploadedfile = fopen($localfolder.$file, 'r');
+        //     app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $file]);
+        //     //menghapus dari local
+        //     unlink($localfolder . $file);
             
-        }else{
-            echo 'error';
-        } 
+        // }else{
+        //     echo 'error';
+        // } 
 
         return redirect('/books')->with('success',"Book Has been Added");
         // mengolah inputan genre
@@ -217,7 +219,7 @@ class BookPostController extends Controller
      */
     public function destroy($id)
     {
-        app('firebase.firestore')->database()->collection('books')->document($id)->delete();  
+        //app('firebase.firestore')->database()->collection('books')->document($id)->delete();  
         return redirect('/books')->with('success',"Book Has been deleted");
     }
 }

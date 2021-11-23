@@ -27,6 +27,7 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <script nomodule src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js" defer></script>
     {{-- multiple select --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <div
@@ -42,6 +43,38 @@
     </div>
 
     <script>
+      function confirm(event){
+        event.preventDefault();
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          // confirmButtonColor: '#7C3AED',
+          cancelButtonColor: '#FF5A26',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if(result.isConfirmed){
+            document.getElementById("form_delete").submit()
+          }
+        })
+      }
+      function confirmUser(event){
+        event.preventDefault();
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          // confirmButtonColor: '#7C3AED',
+          cancelButtonColor: '#FF5A26',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if(result.isConfirmed){
+            document.getElementById("formDeleteUser").submit()
+          }
+        })
+      }
       function showImage() {
           return {
               showPreview(event) {

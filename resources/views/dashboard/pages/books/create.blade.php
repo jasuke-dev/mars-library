@@ -77,15 +77,19 @@
                     @enderror
                   </label>
                   <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Rating</span>
+                    <input
+                      class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      placeholder="Rating" type="number" name="rating" id="rating" value="{{ old('rating') }}" required
+                    />
+                    @error('rating')
+                        <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                  </label>
+                  <label class="block mt-4 text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Stok</span>
-                    {{-- <label class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white">
-                      <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                          <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                      </svg>
-                      <span class="mt-2 text-base leading-normal">Select a file</span>
-                      <input type='file' class="hidden" name="pdf" id="pdf" value="{{ old('pdf') }}" required/>
-                    </label> --}}
-                    
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       placeholder="Stok buku" type="file" name="pdf" id="pdf" value="{{ old('stok') }}" required
@@ -110,20 +114,11 @@
                     @enderror
                   </label>
 
-                <button class="flex items-center justify-between mt-6 px-10 py-4 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
-                    <svg
-                    class="w-4 h-4 mr-2 -ml-1"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                      clip-rule="evenodd"
-                      fill-rule="evenodd"
-                    ></path>
+                <button class="flex items-center justify-between mt-6 px-8 py-4 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
                   </svg>
-                 <span>Larger button</span>
+                  <span>Add</span>
                 </button>
             </div>
         </form>

@@ -64,7 +64,7 @@ class UserPostController extends Controller
         //register user
         $newUser = $this->auth->createUserWithEmailAndPassword($request['email'], $request['password']);        
 
-        //cara web tutorial firestore
+        //buat user collection berdasar uid auth user
         $stuRef = app('firebase.firestore')->database()->collection('users')->Document($newUser->uid);
         $stuRef->set([
             'uid' => $newUser->uid,
@@ -158,7 +158,7 @@ class UserPostController extends Controller
      */
     public function destroy($id)
     {
-        app('firebase.firestore')->database()->collection('users')->document($id)->delete();  
+        //app('firebase.firestore')->database()->collection('users')->document($id)->delete();  
         return redirect('/users')->with('success',"Book Has been deleted");
     }
 }
