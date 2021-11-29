@@ -30,7 +30,7 @@
             <p
               class="text-lg font-semibold text-gray-700 dark:text-gray-200"
             >
-              6389
+              {{ $user }}
             </p>
           </div>
         </div>
@@ -52,7 +52,7 @@
             <p
               class="text-lg font-semibold text-gray-700 dark:text-gray-200"
             >
-              $ 46,760.89
+              {{ $book }}
             </p>
           </div>
         </div>
@@ -74,7 +74,7 @@
             <p
               class="text-lg font-semibold text-gray-700 dark:text-gray-200"
             >
-              376
+            {{ $pinjam }}
             </p>
           </div>
         </div>

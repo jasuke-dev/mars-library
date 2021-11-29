@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Kreait\Firebase\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -131,18 +132,33 @@ class UserPostController extends Controller
     {
         $validatedData = $request->validate([
             'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'email' => '',
+            'password' => '',
             'accountType' => 'required',
             'telp' => 'required'
         ]);
-
+        
         $admin = ($request['accountType'] == 'True') ? true : false;
 
+        if($request['email'] != null){
+            try{
+                $updatedUser = $this->auth->changeUserEmail($id, $request['email']);
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }
+            app('firebase.firestore')->database()->collection('users')->document($id)->update([
+                [ 'path' => 'email' , 'value' => $request['email'] ],
+            ]); 
+        }
+        if($request['password'] != null){
+            $updatedUser = $this->auth->changeUserPassword($id, $request['password']);
+        }
+        
+
+        
         try{
             app('firebase.firestore')->database()->collection('users')->document($id)->update([
                 [ 'path' => 'username' , 'value' => $request['username'] ],
-                [ 'path' => 'email' , 'value' => $request['email'] ],
                 [ 'path' => 'isAdmin' , 'value' => $admin ],
                 [ 'path' => 'telp' , 'value' => $request['telp'] ],
             ]); 
@@ -162,7 +178,16 @@ class UserPostController extends Controller
      */
     public function destroy($id)
     {
-        //app('firebase.firestore')->database()->collection('users')->document($id)->delete();  
-        return redirect('/users')->with('success',"Book Has been deleted");
+        try {
+            $this->auth->deleteUser($id);
+        } catch (\Kreait\Firebase\Exception\AuthException $e) {
+            echo $e->getMessage();
+        }
+        try{
+            app('firebase.firestore')->database()->collection('users')->document($id)->delete();
+            return redirect('/users')->with('success',"Book Has been deleted");
+        } catch(\Exception $e){
+            echo $e->getMessage();
+        }
     }
 }

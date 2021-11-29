@@ -21,7 +21,7 @@
                   <label class="block mt-4 text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Email</span>
                         <input
-                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Email" type="email" name="email" id="email" value="{{ old('email', $oldData->data()['email']) }}" required
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Email" type="email" name="email" id="email" value=""
                         />
                         @error('email')
                             <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
@@ -58,7 +58,7 @@
                     <span class="text-gray-700 dark:text-gray-400">Password</span>
                     <input
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                      placeholder="Nama password" type="text" name="password" id="password" value="{{ old('password', $oldData->data()['telp']) }}" required
+                      placeholder="Nama password" type="text" name="password" id="password" value=""
                     />
                     @error('password')
                         <div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">

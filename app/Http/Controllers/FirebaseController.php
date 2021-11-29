@@ -8,6 +8,8 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\Auth;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Kreait\Firebase\Exception\Auth\RevokedIdToken;
+use Kreait\Firebase\Firestore;
+use Google\Cloud\Firestore\FirestoreClient;
 
 class FirebaseController extends Controller
 {
@@ -56,16 +58,21 @@ class FirebaseController extends Controller
         try {
             $signInResult = $this->auth->signInWithEmailAndPassword($credentials['email'], $credentials['password']);
             // dump($signInResult->data());
-
+            $user =  app('firebase.firestore')->database()->collection('users')->document($signInResult->firebaseUserId())->snapshot();
             // membuat session firebaseUserId dengan isi userID
-            Session::put('firebaseUserId', $signInResult->firebaseUserId());
-            Session::put('idToken', $signInResult->idToken());
-            Session::save();
-
-            return redirect()->intended('/dashboard');
+            if($user->data()['isAdmin']){
+                Session::put('firebaseUserId', $signInResult->firebaseUserId());
+                Session::put('admin',$user->data()['isAdmin']);
+                Session::put('idToken', $signInResult->idToken());
+                Session::save();
+    
+                return redirect()->intended('/dashboard');
+            }else{
+                return back()->with('loginError', 'Anda bukan admin');
+            }
         } catch (\Throwable $e) {
 
-            return back()->with('loginError', 'Incorrect Email or Password');
+            return back()->with('loginError', 'Invalid email or Password');
         }
     }
 
