@@ -71,10 +71,10 @@
                               ></path>
                             </svg>
                           </a>
-                          <form action="/users/{{ $user->id() }}" method="POST" id="formDeleteUser">
+                          <form action="/users/{{ $user->id() }}" method="POST" class="{{ $user->id() }}">
                             @method('delete')
                             @csrf
-                            <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete" onclick="return confirmUser(event)">
+                            <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete" onclick="return confirmUser(event, '{{ $user->id() }}')">
                               <svg
                                 class="w-5 h-5"
                                 aria-hidden="true"
@@ -97,9 +97,7 @@
                 </tbody>
               </table>
             </div>
-            <div
-              class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
-            >
+            {{-- <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
               <span class="flex items-center col-span-3">
                 Showing 21-30 of 100
               </span>
@@ -192,7 +190,7 @@
                   </ul>
                 </nav>
               </span>
-            </div>
+            </div> --}}
           </div>
     </div>
 </main>

@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use stdClass;
 use Exception;
 use Kreait\Firebase\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
+use Kreait\Firebase\Value\Uid;
 use Illuminate\Support\Facades\Session;
 use Google\Cloud\Firestore\FirestoreClient;
 use Firebase\Auth\Token\Exception\InvalidToken;
-use Kreait\Firebase\Exception\Auth\RevokedIdToken;
-use Kreait\Firebase\Value\Uid;
 use phpDocumentor\Reflection\PseudoTypes\True_;
+use Kreait\Firebase\Exception\Auth\RevokedIdToken;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class UserPostController extends Controller
@@ -31,7 +32,6 @@ class UserPostController extends Controller
      */
     public function index()
     {
-        //$users = app('firebase.firestore')->database()->collection('users')->documents();
         return view('dashboard.pages.users.index', [
             'users' => $this->db->collection('users')->documents()
         ]);
@@ -66,15 +66,17 @@ class UserPostController extends Controller
         //register user
         $newUser = $this->auth->createUserWithEmailAndPassword($request['email'], $request['password']);        
 
+        $list = [];
         $admin = ($request['accountType'] == 'True') ? true : false;
         //buat user collection berdasar uid auth user
         $stuRef = app('firebase.firestore')->database()->collection('users')->Document($newUser->uid);
         $stuRef->set([
-            'uid' => $newUser->uid,
+            'id' => $newUser->uid,
             'email' => $request['email'],
             'username' => $request['username'],
             'telp' => $request['telp'],
-            'isAdmin' => $admin
+            'isAdmin' => $admin,
+            'cart' => $list
         ]);
 
         //uploud pdf
@@ -185,7 +187,7 @@ class UserPostController extends Controller
         }
         try{
             app('firebase.firestore')->database()->collection('users')->document($id)->delete();
-            return redirect('/users')->with('success',"Book Has been deleted");
+            return redirect('/users')->with('success',"User Has been deleted");
         } catch(\Exception $e){
             echo $e->getMessage();
         }

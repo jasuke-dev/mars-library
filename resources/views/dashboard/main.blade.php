@@ -43,7 +43,7 @@
     </div>
 
     <script>
-      function confirm(event){
+      function confirm(event, id){
         event.preventDefault();
         Swal.fire({
           title: 'Are you sure?',
@@ -55,11 +55,11 @@
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if(result.isConfirmed){
-            document.getElementById("form_delete").submit()
+            document.getElementsByClassName(id)[0].submit()
           }
         })
       }
-      function confirmUser(event){
+      function confirmUser(event, id){
         event.preventDefault();
         Swal.fire({
           title: 'Are you sure?',
@@ -71,7 +71,7 @@
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if(result.isConfirmed){
-            document.getElementById("formDeleteUser").submit()
+            document.getElementsByClassName(id)[0].submit()
           }
         })
       }

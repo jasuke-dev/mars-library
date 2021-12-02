@@ -21,7 +21,9 @@ use Kreait\Laravel\Firebase\Facades\Firebase;
 
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/', [LoginController::class, 'authenticate']);
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('admin');
+Route::get('/dashboard/{post:user}/{post:buku}',[DashboardController::class,'show']);
     
 Route::get('/register', [FirebaseController::class, 'signUp']);
 

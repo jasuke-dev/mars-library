@@ -221,7 +221,11 @@ class BookPostController extends Controller
      */
     public function destroy($id)
     {
-        //app('firebase.firestore')->database()->collection('books')->document($id)->delete();  
-        return redirect('/books')->with('success',"Book Has been deleted");
+        try{
+            app('firebase.firestore')->database()->collection('books')->document($id)->delete();
+            return redirect('/books')->with('success',"Book Has been deleted");
+        } catch(\Exception $e){
+            echo $e->getMessage();
+        }
     }
 }
