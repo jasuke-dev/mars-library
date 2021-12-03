@@ -23,7 +23,7 @@ Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('g
 Route::post('/', [LoginController::class, 'authenticate']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('admin');
-Route::get('/dashboard/{post:user}/{post:buku}',[DashboardController::class,'show']);
+Route::post('/dashboard',[DashboardController::class,'show']);
     
 Route::get('/register', [FirebaseController::class, 'signUp']);
 

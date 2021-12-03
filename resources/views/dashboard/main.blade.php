@@ -42,7 +42,11 @@
         @yield('container')
     </div>
 
+    @stack('script')
     <script>
+
+
+
       function confirm(event, id){
         event.preventDefault();
         Swal.fire({
@@ -60,6 +64,22 @@
         })
       }
       function confirmUser(event, id){
+        event.preventDefault();
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          // confirmButtonColor: '#7C3AED',
+          cancelButtonColor: '#FF5A26',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if(result.isConfirmed){
+            document.getElementsByClassName(id)[0].submit()
+          }
+        })
+      }
+      function confirmReturn(event, id){
         event.preventDefault();
         Swal.fire({
           title: 'Are you sure?',

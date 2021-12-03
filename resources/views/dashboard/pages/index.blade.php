@@ -99,7 +99,7 @@
             <tbody
               class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
             >
-            @foreach ($data_pinjam as $data)    
+            @foreach ($data_pinjam as $i=>$data)    
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3">
                   <div class="flex items-center text-sm">
@@ -132,15 +132,21 @@
                 <td class="px-4 py-3 text-sm">
                   <span
                     class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
-                  >
+                  >                  
                     {{ $data->pengarang }}
                   </span>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <form action="/users/{{ $data->id_user }}" method="POST" class="{{ $data->id_user }}">
-                    @method('delete')
+                  <span class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600 {{ $data->tanggal }}">                  
+                    
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <form action="/dashboard" method="POST" class="{{ $i }}">
                     @csrf
-                    <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete" onclick="return confirmUser(event, '{{ $data->id_user }}')">
+                    <input type="hidden" value="{{ $data->id_user }}" name="user">
+                    <input type="hidden" value="{{ $data->id_buku }}" name="buku">
+                    <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete" onclick="return confirmReturn(event, '{{ $i }}')">
                       <svg
                         class="w-5 h-5"
                         aria-hidden="true"
@@ -165,4 +171,30 @@
 
     </div>
   </main>
+    <script>
+      var dates = {!! json_encode($tgl_pinjam);  !!};
+      var x = setInterval(function() {
+
+      dates.forEach(function(tgl){
+        var countDownDate = new Date(tgl);
+        countDownDate.setDate(countDownDate.getDate() + 3);
+        var now = new Date().getTime();
+
+        var distance = countDownDate - now;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementsByClassName(tgl)[0].innerHTML = days + "d " + hours + "h "
+        + minutes + "m " + seconds + "s ";
+
+        if (distance < 0) {
+          clearInterval(x);
+          document.getElementsByClassName(tgl)[0].innerHTML = "EXPIRED";
+        }
+      });
+    }, 1000);
+    </script>
 @endsection

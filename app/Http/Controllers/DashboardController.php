@@ -12,6 +12,7 @@ class DashboardController extends Controller
 {
     public function index(){        
         $list = [];
+        $list_tanggal = [];
         $temp = app('firebase.firestore')->database()->collection('users')->documents();
         foreach ($temp as &$data) {
             $id_user = $data->data()['id'];
@@ -35,20 +36,39 @@ class DashboardController extends Controller
                     $object->judul = $judul;
                     $object->pengarang = $pengarang;
                     $object->tanggal = $tanggal;
-        
+                    
+                    array_push($list_tanggal, $tanggal);
                     array_push($list, $object);
                 }
             }
         }
+        
         return view('dashboard.pages.index',[
             'user' => app('firebase.firestore')->database()->collection('users')->documents()->size(),
             'book' => app('firebase.firestore')->database()->collection('books')->documents()->size(),
             'pinjam' => sizeof($list),
-            'data_pinjam' => $list
+            'data_pinjam' => $list,
+            'tgl_pinjam' => $list_tanggal
         ]);
     }
 
-    public function show(Post $user, Post $buku){
-
+    public function show(Request $request){
+        $id_buku = $request['buku'];
+        $id_user = $request['user'];
+        try{
+            app('firebase.firestore')->database()->collection('users')->document($id_user)->collection('cart')->document($id_buku)->delete();
+            try{
+                $oldBuku = app('firebase.firestore')->database()->collection('books')->document($id_buku)->snapshot();
+                $newStok = intval( $oldBuku->data()['stok']) + 1;                
+                app('firebase.firestore')->database()->collection('books')->document($id_buku)->update([
+                    [ 'path' => 'stok' , 'value' => strval($newStok) ]
+                ]); 
+            } catch(\Exception $e){
+                echo $e->getMessage();
+            }
+            return redirect('/dashboard')->with('success',"Book Has been Returned");
+        } catch(\Exception $e){
+            echo $e->getMessage();
+        }
     }
 }
